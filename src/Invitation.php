@@ -204,10 +204,10 @@ class Invitation implements InvitationInterface
     private function save($token, $beforeSave = null)
     {
         $this->getModelInstance();
-        $this->instance->email      = $this->email;
-        $this->instance->user_id    = $this->referral;
-        $this->instance->valid_till = $this->expires;
-        $this->instance->token      = $token;
+        $this->instance->email          = $this->email;
+        $this->instance->referrer_id    = $this->referral;
+        $this->instance->valid_till     = $this->expires;
+        $this->instance->token          = $token;
 
         if (!is_null($beforeSave)) {
             if ($beforeSave instanceof Closure) {
@@ -219,7 +219,7 @@ class Invitation implements InvitationInterface
         $this->instance->save();
 
         $this->token  = $token;
-        $this->exist = true;
+        $this->exist  = true;
         return $this;
     }
 

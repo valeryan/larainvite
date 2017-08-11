@@ -123,8 +123,9 @@ protected $listen = [
 ```
 `UserInvited.php`
 ```php
-public function handle($invitation)
+public function handle($event)
 {
+    $invitaton = $event->invitation
     \Mail::queue('invitations.emailBody', $invitation, function ($m) use ($invitation) {
             $m->from('From Address', 'Your App Name');
             $m->to($invitation->email);
