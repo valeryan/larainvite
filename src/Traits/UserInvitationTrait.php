@@ -1,6 +1,6 @@
 <?php
 
-namespace Junaidnasir\Larainvite;
+namespace Valeryan\Larainvite;
 
 trait UserInvitationTrait
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Junaidnasir\Larainvite;
+namespace Valeryan\Larainvite;
 
 use Carbon\Carbon;
 
@@ -23,7 +23,7 @@ interface InvitationInterface
 
     /**
      * Returns Invitation record
-     * @return Junaidnasir\Larainvite\Models\UserInvitation
+     * @return Valeryan\Larainvite\Models\UserInvitation
      */
     public function get();
 

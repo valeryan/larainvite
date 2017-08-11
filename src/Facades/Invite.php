@@ -1,5 +1,5 @@
 <?php
-namespace Junaidnasir\Larainvite\Facades;
+namespace Valeryan\Larainvite\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

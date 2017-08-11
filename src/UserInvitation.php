@@ -1,4 +1,6 @@
-<?php namespace Junaidnasir\Larainvite;
+<?php
+
+namespace Valeryan\Larainvite;
 
 use Exception;
 use Carbon\Carbon;

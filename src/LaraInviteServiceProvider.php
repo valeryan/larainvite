@@ -1,6 +1,6 @@
 <?php
 
-namespace Junaidnasir\Larainvite;
+namespace Valeryan\Larainvite;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -30,8 +30,8 @@ class LaraInviteServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/Config/larainvite.php', 'larainvite');
         $this->app->singleton('invite', function ($app) {
-            $laravelImplementation = new \Junaidnasir\Larainvite\Invitation();
-            return new \Junaidnasir\Larainvite\UserInvitation($laravelImplementation);
+            $laravelImplementation = new \Valeryan\Larainvite\Invitation();
+            return new \Valeryan\Larainvite\UserInvitation($laravelImplementation);
         });
     }
 }

@@ -21,19 +21,19 @@ composer require junaidnasir/larainvite
 add the package service provider in the providers array in `config/app.php`:
 
 ```php
-Junaidnasir\Larainvite\LaraInviteServiceProvider::class
+Valeryan\Larainvite\LaraInviteServiceProvider::class
 ```
 
 you may add the facade access in the aliases array:
 
 ```php
-'Invite'  => Junaidnasir\Larainvite\Facades\Invite::class
+'Invite'  => Valeryan\Larainvite\Facades\Invite::class
 ```
 
 publish the migration and config file:
 
 ```bash
-php artisan vendor:publish --provider="Junaidnasir\Larainvite\LaraInviteServiceProvider"
+php artisan vendor:publish --provider="Valeryan\Larainvite\LaraInviteServiceProvider"
 ```
 
 migrate to create `user_invitation` table
@@ -44,7 +44,7 @@ php artisan migrate
 
 edit your `User` model to include `larainviteTrait`
 ```php
-use Junaidnasir\Larainvite\Traits\UserInvitationTrait;
+use Valeryan\Larainvite\Traits\UserInvitationTrait;
 class user ... {
     use UserInvitationTrait;
 }
@@ -107,16 +107,16 @@ $count = $user->invitations()->count();
 
 ***larainvite*** fires several [events](https://laravel.com/docs/master/events)
 
-*  'Junaidnasir\Larainvite\Invited' 
-*  'Junaidnasir\Larainvite\Consumed' 
-*  'Junaidnasir\Larainvite\Canceled' 
-*  'Junaidnasir\Larainvite\Expired' 
+*  'Valeryan\Larainvite\Invited' 
+*  'Valeryan\Larainvite\Consumed' 
+*  'Valeryan\Larainvite\Canceled' 
+*  'Valeryan\Larainvite\Expired' 
 
 all of these events include `invitation modal` so you can listen to these events.
 include listener in `EventServiceProvider.php`
 ```php
 protected $listen = [
-    'Junaidnasir\Larainvite\Invited' => [
+    'Valeryan\Larainvite\Invited' => [
         'App\Listeners\UserInvited',
     ],
 ];

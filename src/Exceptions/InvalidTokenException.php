@@ -1,6 +1,6 @@
 <?php
 
-namespace Junaidnasir\Larainvite\Exceptions;
+namespace Valeryan\Larainvite\Exceptions;
 
 use Exception;
 

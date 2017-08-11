@@ -1,10 +1,12 @@
-<?php  namespace Junaidnasir\Larainvite;
+<?php
+
+namespace Valeryan\Larainvite;
 
 use Closure;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Junaidnasir\Larainvite\Exceptions\InvalidTokenException;
+use Valeryan\Larainvite\Exceptions\InvalidTokenException;
 
 /**
 *   Laravel Invitation class
@@ -43,7 +45,7 @@ class Invitation implements InvitationInterface
 
     /**
      * Invitation Model
-     * @var /Junaidnasir\Larainvite\Models\UserInvitation
+     * @var /Valeryan\Larainvite\Models\UserInvitation
      */
     private $instance = null;
     
@@ -222,7 +224,7 @@ class Invitation implements InvitationInterface
     }
 
     /**
-     * set $this->instance to Junaidnasir\Larainvite\Models\UserInvitation instance
+     * set $this->instance to Valeryan\Larainvite\Models\UserInvitation instance
      * @param  boolean $allowNew allow new model
      * @throws InvalidTokenException
      * @return Invitation
@@ -266,7 +268,7 @@ class Invitation implements InvitationInterface
      */
     private function publishEvent($event)
     {
-        $event_name = '\\Junaidnasir\\Larainvite\\Events\\' . $event;
+        $event_name = '\\Valeryan\\Larainvite\\Events\\' . $event;
         Event::fire(new $event_name($this->instance));
         return $this;
     }

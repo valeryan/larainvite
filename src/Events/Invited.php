@@ -1,9 +1,9 @@
 <?php
 
-namespace Junaidnasir\Larainvite\Events;
+namespace Valeryan\Larainvite\Events;
 
 use Illuminate\Queue\SerializesModels;
-use Junaidnasir\Larainvite\Models\UserInvitationInterface;
+use Valeryan\Larainvite\Models\UserInvitationInterface;
 
 class Invited
 {

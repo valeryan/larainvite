@@ -1,6 +1,6 @@
 <?php
 
-namespace Junaidnasir\Larainvite\Models;
+namespace Valeryan\Larainvite\Models;
 
 interface UserInvitationInterface
 {

@@ -31,5 +31,5 @@ return [
     | Invitation Model
     |--------------------------------------------------------------------------
     */
-    'invitation_model' => 'Junaidnasir\Larainvite\Models\UserInvitation'
+    'invitation_model' => 'Valeryan\Larainvite\Models\UserInvitation'
 ];
