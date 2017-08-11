@@ -2,26 +2,28 @@
 
 namespace Junaidnasir\Larainvite;
 
+use Carbon\Carbon;
+
 interface InvitationInterface
 {
     /**
      * Create new invitation
      * @param  string   $email      Email to invite
      * @param  int      $referral   Referral
-     * @param  DateTime $expires    Expiration Date Time
+     * @param  Carbon   $expires    Expiration Date Time
      * @return string               Referral code
      */
     public function invite($email, $referral, $expires);
     
     /**
-     * Set referral code and LaraInviteModel instance
-     * @param string $code referral Code
+     * Set referral code and UserInvitation instance
+     * @param string $token referral Code
      */
-    public function setCode($code);
+    public function setToken($token);
 
     /**
      * Returns Invitation record
-     * @return Junaidnasir\Larainvite\Models\LaraInviteModel
+     * @return Junaidnasir\Larainvite\Models\UserInvitation
      */
     public function get();
 
@@ -70,7 +72,8 @@ interface InvitationInterface
 
     /**
      * check if given token is valid and given email is allowed
-     * @return boolean
+     * @param $email
+     * @return bool
      */
     public function isAllowed($email);
 }

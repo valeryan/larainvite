@@ -2,7 +2,7 @@
 
 namespace Junaidnasir\Larainvite;
 
-trait InviteTrait
+trait UserInvitationTrait
 {
     /**
      * return all invitation as laravel collection
@@ -10,14 +10,14 @@ trait InviteTrait
      */
     public function invitations()
     {
-        return $this->hasMany(config('larainvite.InvitationModel'));
+        return $this->hasMany(config('larainvite.invitation_model'));
     }
 
     /**
-     * return successful initation by a user
+     * return successful invitation by a user
      * @return hasMany
      */
-    public function invitationSuccess()
+    public function successfulInvitations()
     {
         return $this->invitations()->where('status', 'successful');
     }
@@ -25,7 +25,7 @@ trait InviteTrait
      * return pending invitations by a user
      * @return hasMany
      */
-    public function invitationPending()
+    public function pendingInvitations()
     {
         return $this->invitations()->where('status', 'pending');
     }
