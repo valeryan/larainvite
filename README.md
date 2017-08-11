@@ -44,9 +44,9 @@ php artisan migrate
 
 edit your `User` model to include `larainviteTrait`
 ```php
-use Junaidnasir\Larainvite\InviteTrait;
+use Junaidnasir\Larainvite\Traits\UserInvitationTrait;
 class user ... {
-    use InviteTrait;
+    use UserInvitationTrait;
 }
 ```
 
@@ -107,21 +107,21 @@ $count = $user->invitations()->count();
 
 ***larainvite*** fires several [events](https://laravel.com/docs/master/events)
 
-*  'junaidnasir.larainvite.invited' 
-*  'junaidnasir.larainvite.consumed' 
-*  'junaidnasir.larainvite.canceled' 
-*  'junaidnasir.larainvite.expired' 
+*  'Junaidnasir\Larainvite\Invited' 
+*  'Junaidnasir\Larainvite\Consumed' 
+*  'Junaidnasir\Larainvite\Canceled' 
+*  'Junaidnasir\Larainvite\Expired' 
 
-all of these events incloses `invitation modal` so you can listen to these events.
+all of these events include `invitation modal` so you can listen to these events.
 include listener in `EventServiceProvider.php`
 ```php
 protected $listen = [
-    'junaidnasir.larainvite.invited' => [
-        'App\Listeners\userInvite',
+    'Junaidnasir\Larainvite\Invited' => [
+        'App\Listeners\UserInvited',
     ],
 ];
 ```
-`userInvite.php`
+`UserInvited.php`
 ```php
 public function handle($invitation)
 {
@@ -141,12 +141,17 @@ in `config/larainvite.php` you can set default expiration time in hours from cur
 'expires' => 48
 ```
 
+you can also change the table name to be used, in `larainvite.php`
+```php
+'table_name' => 'user_invitations'
+```
+
 you can also change user model to be used, in `larainvite.php`
 ```php
-'UserModel' => 'App\User'
+'user_model' => 'App\User'
 ```
 
 you can also change invitation model to be used, in `larainvite.php`
 ```php
-'InvitationModel' => 'App\Invitation'
+'invitation_model' => 'App\Invitation'
 ```

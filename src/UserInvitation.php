@@ -1,8 +1,7 @@
 <?php namespace Junaidnasir\Larainvite;
 
-use \Exception;
+use Exception;
 use Carbon\Carbon;
-use Junaidnasir\Larainvite\invitationInterface;
 
 /**
 * User Invitation class
@@ -10,7 +9,8 @@ use Junaidnasir\Larainvite\invitationInterface;
 class UserInvitation
 {
     private $interface;
-    function __construct(invitationInterface $interface)
+    
+    public function __construct(InvitationInterface $interface)
     {
         $this->interface = $interface;
     }
@@ -22,49 +22,51 @@ class UserInvitation
         return $this->interface->invite($email, $referral, $expires, $beforeSave);
     }
 
-    public function get($code)
+    public function get($token)
     {
-        return $this->interface->setCode($code)->get();
+        return $this->interface->setToken($token)->get();
     }
 
-    public function status($code)
+    public function status($token)
     {
-        return $this->interface->setCode($code)->status();
+        return $this->interface->setToken($token)->status();
     }
 
-    public function isValid($code)
+    public function isValid($token)
     {
-        return $this->interface->setCode($code)->isValid();
+        return $this->interface->setToken($token)->isValid();
     }
 
-    public function isExpired($code)
+    public function isExpired($token)
     {
-        return $this->interface->setCode($code)->isExpired();
+        return $this->interface->setToken($token)->isExpired();
     }
 
-    public function isPending($code)
+    public function isPending($token)
     {
-        return $this->interface->setCode($code)->isPending();
+        return $this->interface->setToken($token)->isPending();
     }
 
-    public function isAllowed($code, $email)
+    public function isAllowed($token, $email)
     {
-        return $this->interface->setCode($code)->isAllowed($email);
-    }
-    public function consume($code)
-    {
-        return $this->interface->setCode($code)->consume();
+        return $this->interface->setToken($token)->isAllowed($email);
     }
 
-    public function cancel($code)
+    public function consume($token)
     {
-        return $this->interface->setCode($code)->cancel();
+        return $this->interface->setToken($token)->consume();
     }
 
-    public function reminder($code)
+    public function cancel($token)
     {
-        return $this->interface->setCode($code)->reminder();
+        return $this->interface->setToken($token)->cancel();
     }
+
+    public function reminder($token)
+    {
+        return $this->interface->setToken($token)->reminder();
+    }
+
     public function validateEmail($email)
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {

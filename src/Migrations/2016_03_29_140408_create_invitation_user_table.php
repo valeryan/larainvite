@@ -14,10 +14,10 @@ class CreateInvitationUserTable extends Migration
     {
         Schema::create('user_invitations', function (Blueprint $table) {
             $table->BigIncrements('id');
-            $table->string('code')->index();
+            $table->string('token')->index();
             $table->string('email');
-            $table->BigInteger('user_id')->unsigned();
-            $table->enum('status', ['pending', 'successful','canceled','expired']);
+            $table->BigInteger('referrer_id')->unsigned();
+            $table->enum('status', ['pending', 'successful', 'canceled', 'expired']);
             $table->datetime('valid_till');
             $table->timestamps();
         });
