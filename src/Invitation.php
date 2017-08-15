@@ -127,6 +127,18 @@ class Invitation implements InvitationInterface
     /**
      * {@inheritdoc}
      */
+    public function remind($expires)
+    {
+        $this->checkInstance();
+        $this->instance->valid_till = $expires;
+        $this->instance->save();
+        $this->publishEvent('Invited');
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function isExisting()
     {
         $this->checkInstance();
@@ -175,17 +187,6 @@ class Invitation implements InvitationInterface
     public function isAllowed($email)
     {
         return ($this->isValid() && ($this->instance->email == $email));
-    }
-    
-    /**
-     * Fire Valeryan\Larainvite\Invited again for the invitation
-     * @return true
-     */
-    public function reminder()
-    {
-        $this->checkInstance();
-        $this->publishEvent('Invited');
-        return true;
     }
 
     /**

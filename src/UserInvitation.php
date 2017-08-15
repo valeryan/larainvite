@@ -64,9 +64,9 @@ class UserInvitation
         return $this->interface->setToken($token)->cancel();
     }
 
-    public function reminder($token)
+    public function remind($token)
     {
-        return $this->interface->setToken($token)->reminder();
+        return $this->interface->setToken($token)->remind(Carbon::now()->addHour(config('larainvite.expires')));
     }
 
     public function validateEmail($email)

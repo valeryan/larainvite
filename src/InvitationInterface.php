@@ -23,13 +23,13 @@ interface InvitationInterface
 
     /**
      * Returns Invitation record
-     * @return Valeryan\Larainvite\Models\UserInvitation
+     * @return \Valeryan\Larainvite\Models\UserInvitation
      */
     public function get();
 
     /**
      * Returns invitation status
-     * @return string pending | successful | expired | canceled
+     * @return string pending | successful | expired | canceled | invalid
      */
     public function status();
 
@@ -44,6 +44,13 @@ interface InvitationInterface
      * @return boolean true on success | false on error
      */
     public function cancel();
+
+    /**
+     * Resend the invitation
+     * @param $expires
+     * @return true
+     */
+    public function remind($expires);
 
     /**
      * check if a code exist
