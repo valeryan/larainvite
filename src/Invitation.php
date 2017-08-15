@@ -90,7 +90,7 @@ class Invitation implements InvitationInterface
      */
     public function status()
     {
-        if ($this->isValid()) {
+        if ($this->isExisting()) {
             return $this->instance->status;
         }
         return 'Invalid';
