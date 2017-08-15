@@ -1,3 +1,17 @@
+# Personal Note
+The namespaceing in this fork is modified for my personal testing. If you want to try out these changes you will need to add a repository entry in your composer.json. I have no intention of supporting my changes to this package. So I don't recommend it for public use. This repo represents the changes I have made to intergrate this package into my projects and is not neccisarrly useful to others.
+
+To use this package add to composer.json: 
+
+```
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "git@github.com:valeryan/larainvite.git"
+        }
+    ]
+```
+
 # larainvite
 User (signup) invitation package for laravel
 
