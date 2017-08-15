@@ -5,13 +5,12 @@ namespace Valeryan\Larainvite;
 use Closure;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Valeryan\Larainvite\Exceptions\InvalidTokenException;
 use Valeryan\Larainvite\Exceptions\InviteNotInitializedException;
 
 /**
-*   Laravel Invitation class
-*/
+ *   Laravel Invitation class
+ */
 class Invitation implements InvitationInterface
 {
     /**
@@ -25,12 +24,6 @@ class Invitation implements InvitationInterface
      * @var string
      */
     private $token = null;
-
-    /**
-     * Status of token existing in DB
-     * @var bool
-     */
-    private $exist = false;
 
     /**
      * integer ID of referral
@@ -49,39 +42,33 @@ class Invitation implements InvitationInterface
      * @var \Valeryan\Larainvite\Models\UserInvitation
      */
     private $instance;
-    
+
     /**
      * {@inheritdoc}
      */
     public function invite($email, $referral, $expires, $beforeSave = null)
     {
         $this->readyPayload($email, $referral, $expires)
-             ->createInvite($beforeSave)
-             ->publishEvent('Invited');
+            ->createInvite($beforeSave)
+            ->publishEvent('Invited');
         return $this->token;
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function setToken($token)
     {
         $this->token = $token;
-        try {
-            $this->getModelInstance(false);
-        } catch (InvalidTokenException $exception) {
-            // handle invalid tokens
-            $this->exist = false;
-        }
+        $this->getModelInstance(false);
         return $this;
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function get()
     {
-        $this->checkInstance();
         return $this->instance;
     }
 
@@ -95,7 +82,7 @@ class Invitation implements InvitationInterface
         }
         return 'Invalid';
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -109,7 +96,7 @@ class Invitation implements InvitationInterface
         }
         return false;
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -141,10 +128,14 @@ class Invitation implements InvitationInterface
      */
     public function isExisting()
     {
-        $this->checkInstance();
-        return $this->exist;
+        try {
+            $this->checkInstance();
+        } catch (\Exception $exception) {
+            return false;
+        }
+        return true;
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -152,7 +143,7 @@ class Invitation implements InvitationInterface
     {
         return (!$this->isExpired() && $this->isPending());
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -169,7 +160,7 @@ class Invitation implements InvitationInterface
         $this->publishEvent('Expired');
         return true;
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -190,12 +181,16 @@ class Invitation implements InvitationInterface
     }
 
     /**
+     * @throws InvalidTokenException
      * @throws InviteNotInitializedException
      */
     private function checkInstance()
     {
         if (is_null($this->instance)) {
-            throw new InviteNotInitializedException('No Token is defined. You must call setToken() before using this method. ');
+            if (is_null($this->token)) {
+                throw new InviteNotInitializedException('No Token is defined. You must call setToken() before using this method.', 401);
+            }
+            throw new InvalidTokenException("Invalid Token {$this->token}", 401);
         }
     }
     /**
@@ -233,31 +228,25 @@ class Invitation implements InvitationInterface
         $this->instance->save();
 
         $this->token  = $token;
-        $this->exist  = true;
         return $this;
     }
 
     /**
      * set $this->instance to Valeryan\Larainvite\Models\UserInvitation instance
      * @param  boolean $allowNew allow new model
-     * @throws InvalidTokenException
      * @return Invitation
      */
     private function getModelInstance($allowNew = true)
     {
         $model = config('larainvite.invitation_model');
-        //if (is_null($this->token) && $allowNew) {
+
         if ($allowNew) {
             $this->instance = new $model;
             return $this;
         }
-        try {
-            $this->instance = (new $model)->where('token', $this->token)->firstOrFail();
-            $this->exist    = true;
-            return $this;
-        } catch (ModelNotFoundException $e) {
-            throw new InvalidTokenException("Invalid Token {$this->token}", 401);
-        }
+
+        $this->instance = (new $model)->where('token', $this->token)->first();
+        return $this;
     }
 
     /**
