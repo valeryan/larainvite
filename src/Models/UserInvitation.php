@@ -30,7 +30,7 @@ class UserInvitation extends Model implements UserInvitationInterface
     /**
      * Referral User
      */
-    public function user()
+    public function referrer()
     {
         return $this->belongsTo(config('larainvite.user_model'), 'referrer_id');
     }

@@ -4,5 +4,5 @@ namespace Valeryan\Larainvite\Models;
 
 interface UserInvitationInterface
 {
-    public function user();
+    public function referrer();
 }
