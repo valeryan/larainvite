@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Valeryan\Larainvite\Exceptions\InvalidTokenException;
+use Valeryan\Larainvite\Exceptions\InviteNotInitializedException;
 
 /**
 *   Laravel Invitation class
@@ -45,9 +46,9 @@ class Invitation implements InvitationInterface
 
     /**
      * Invitation Model
-     * @var /Valeryan\Larainvite\Models\UserInvitation
+     * @var \Valeryan\Larainvite\Models\UserInvitation
      */
-    private $instance = null;
+    private $instance;
     
     /**
      * {@inheritdoc}
@@ -80,6 +81,7 @@ class Invitation implements InvitationInterface
      */
     public function get()
     {
+        $this->checkInstance();
         return $this->instance;
     }
 
@@ -127,6 +129,7 @@ class Invitation implements InvitationInterface
      */
     public function isExisting()
     {
+        $this->checkInstance();
         return $this->exist;
     }
     
@@ -175,15 +178,25 @@ class Invitation implements InvitationInterface
     }
     
     /**
-     * Fire junaidnasir.larainvite.invited again for the invitation
+     * Fire Valeryan\Larainvite\Invited again for the invitation
      * @return true
      */
     public function reminder()
     {
-        Event::fire('junaidnasir.larainvite.invited', $this->instance, false);
+        $this->checkInstance();
+        $this->publishEvent('Invited');
         return true;
     }
 
+    /**
+     * @throws InviteNotInitializedException
+     */
+    private function checkInstance()
+    {
+        if (is_null($this->instance)) {
+            throw new InviteNotInitializedException('No Token is defined. You must call setToken() before using this method. ');
+        }
+    }
     /**
      * generate invitation token and call save
      * @param null|mixed $beforeSave

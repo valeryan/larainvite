@@ -19,8 +19,8 @@ class UserInvitation
 
     public function invite($email, $referral, $expires = null, $beforeSave = null)
     {
-        $expires = (is_null($expires)) ? Carbon::now()->addHour(config('larainvite.expires')) : $expires;
         $this->validateEmail($email);
+        $expires = (is_null($expires)) ? Carbon::now()->addHour(config('larainvite.expires')) : $expires;
         return $this->interface->invite($email, $referral, $expires, $beforeSave);
     }
 
