@@ -7,7 +7,7 @@ User (signup) invitation package for laravel
 
 larainvite is a ***laravel*** package, to allow existing users to invite others by email.
 
-It generates referral code and keep track of status.
+It generates referral token and keep track of status.
 
 
 ## Installation
@@ -15,7 +15,7 @@ It generates referral code and keep track of status.
 Begin by installing the package through Composer. Run the following command in your terminal:
 
 ```bash
-composer require junaidnasir/larainvite
+composer require valeryan/larainvite
 ```
 
 add the package service provider in the providers array in `config/app.php`:
@@ -58,43 +58,43 @@ You can use ***facade accessor*** to retrieve the package controller. Examples:
 ```php
 $user = Auth::user();
 //Invite::invite(EMAIL, REFERRAL_ID); 
-$refCode = Invite::invite('email@address.com', $user->id);
+$token = Invite::invite('email@address.com', $user->id);
 //or 
 //Invite::invite(EMAIL, REFERRAL_ID, EXPIRATION); 
-$refCode = Invite::invite('email@address.com', $user->id, '2016-12-31 10:00:00');
+$token = Invite::invite('email@address.com', $user->id, '2016-12-31 10:00:00');
 //or
 //Invite::invite(EMAIL, REFERRAL_ID, EXPIRATION, BEFORE_SAVE_CALLBACK); 
-$refCode = Invite::invite($to, Auth::user()->id, Carbon::now()->addYear(1),
+$token = Invite::invite($to, Auth::user()->id, Carbon::now()->addYear(1),
                       function(/* InvitationModel, see Configurations */ $invitation) use ($someValue) {
       $invitation->someParam = $someValue;
 });
 ```
 
-now create routes with `refCode`, when user access that route you can use following methods
+now create routes with the `token`, when user access that route you can use following methods
 ```php
 // Get route
-$code = Request::input('code');
-if( Invite::isValid($code))
+$token = Request::input('token');
+if( Invite::isValid($token))
 {
-    $invitation = Invite::get($code); //retrieve invitation modal
+    $invitation = Invite::get($token); //retrieve invitation modal
     $invited_email = $invitation->email;
     $referral_user = $invitation->user;
 
     // show signup form
 } else {
-    $status = Invite::status($code);
+    $status = Invite::status($token);
     // show error or show simple signup form
 }
 ```
 ```php
 // Post route
-$code = Request::input('code');
+$token = Request::input('token');
 $email = Request::input('signup_email');
-if( Invite::isAllowed($code,$email) ){
+if( Invite::isAllowed($token, $email) ){
     // Register this user
-    Invite::consume($code);
+    Invite::consume($token);
 } else {
-    // either refCode is inavalid, or provided email was not invited against this refCode
+    // either token is inavalid, or provided email was not invited against this token
 }
 ```
 with help of new trait you have access to invitations sent by user
