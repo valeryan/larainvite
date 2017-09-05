@@ -118,6 +118,7 @@ class Invitation implements InvitationInterface
     {
         $this->checkInstance();
         $this->instance->valid_till = $expires;
+        $this->instance->status = 'pending';
         $this->instance->save();
         $this->publishEvent('Invited');
         return true;
